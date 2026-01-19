@@ -14,7 +14,7 @@ import frc.robot.subsystems.CANFuelSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class PracticeAuto extends SequentialCommandGroup {
   /** Creates a new ExampleAuto. */
-  public PracticeAuto(CANDriveSubsystem driveSubsystem, CANFuelSubsystem ballSubsystem) {
+  public PracticeAuto(CANDriveSubsystem driveSubsystem, CANFuelSubsystem fuelSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand()); 
     addCommands(
@@ -24,7 +24,7 @@ public class PracticeAuto extends SequentialCommandGroup {
     new AutoDrive(driveSubsystem,0.5,  0.0).withTimeout(.25),
     // Spin up the launcher for 1 second and then launch balls for 9 seconds, for a
     // total of 10 seconds
-    new Launch(ballSubsystem).withTimeout(5.0),
+    new Launch(fuelSubsystem).withTimeout(5.0),
     //Turns 90 degrees clockwise
     new AutoDrive(driveSubsystem,0.0, 0.5).withTimeout(0.5),
     //Go forward
@@ -42,7 +42,7 @@ public class PracticeAuto extends SequentialCommandGroup {
     //Drives forward to the hub
     new AutoDrive(driveSubsystem,0.5,0.0).withTimeout(2),
     //Shoots the fuel currently stored in the hopper
-    new Launch(ballSubsystem).withTimeout(5)
+    new Launch(fuelSubsystem).withTimeout(5)
     );
    
  

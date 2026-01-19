@@ -14,6 +14,7 @@ public class SpinUp extends Command {
   /** Creates a new Intake. */
 
   CANFuelSubsystem fuelSubsystem;
+  float agitatorTimer = 0.0f;
 
   public SpinUp(CANFuelSubsystem fuelSystem) {
     addRequirements(fuelSystem);
@@ -28,12 +29,25 @@ public class SpinUp extends Command {
         .setIntakeLauncherRoller(
             SmartDashboard.getNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_VOLTAGE));
     fuelSubsystem.setFeederRoller(SmartDashboard.getNumber("Launching spin-up feeder value", SPIN_UP_FEEDER_VOLTAGE));
+
+    agitatorTimer = 0.0f;
   }
 
   // Called every time the scheduler runs while the command is scheduled. This
   // command doesn't require updating any values while running
   @Override
   public void execute() {
+    // Reverses motor direction every 3 seconds for 0.5 seconds
+    agitatorTimer += 0.05f;
+    if (agitatorTimer > 3 && agitatorTimer < 3.5) {
+      fuelSubsystem.setFeederRoller(SmartDashboard.getNumber("Launching spin-up feeder value", -SPIN_UP_FEEDER_VOLTAGE));
+    }
+    else {
+      if (agitatorTimer > 3.5) {
+        agitatorTimer = 0.0f;
+      }
+      fuelSubsystem.setFeederRoller(SmartDashboard.getNumber("Launching spin-up feeder value", SPIN_UP_FEEDER_VOLTAGE));
+    }
   }
 
   // Called once the command ends or is interrupted. Stop the rollers
