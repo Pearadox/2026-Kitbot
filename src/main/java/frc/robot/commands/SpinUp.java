@@ -38,7 +38,8 @@ public class SpinUp extends Command {
   @Override
   public void execute() {
     // Reverses motor direction every 3 seconds for 0.5 seconds
-    agitatorTimer += 0.05f;
+ /*
+   agitatorTimer += 0.05f;
     if (agitatorTimer > 3 && agitatorTimer < 3.5) {
       fuelSubsystem.setFeederRoller(SmartDashboard.getNumber("Launching spin-up feeder value", -SPIN_UP_FEEDER_VOLTAGE));
     }
@@ -48,6 +49,7 @@ public class SpinUp extends Command {
       }
       fuelSubsystem.setFeederRoller(SmartDashboard.getNumber("Launching spin-up feeder value", SPIN_UP_FEEDER_VOLTAGE));
     }
+  */ 
   }
 
   // Called once the command ends or is interrupted. Stop the rollers
