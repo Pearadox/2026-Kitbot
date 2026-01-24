@@ -12,6 +12,8 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.config.RobotConfig;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other
@@ -33,6 +35,8 @@ public final class Constants {
     // Current limit for drivetrain motors. 60A is a reasonable maximum to reduce
     // likelihood of tripping breakers or damaging CIM motors
     public static final int DRIVE_MOTOR_CURRENT_LIMIT = 60;
+
+    public static final double WHEEL_CIRCUMFERENCE = Math.PI * 0.1524;
   }
 
   public static final class FuelConstants {
@@ -47,7 +51,7 @@ public final class Constants {
     // Voltage values for various fuel operations. These values may need to be tuned
     // based on exact robot construction.
     // See the Software Guide for tuning information
-    public static final double INTAKING_FEEDER_VOLTAGE = -12;
+    public static final double INTAKING_FEEDER_VOLTAGE = 12;
     public static final double INTAKING_INTAKE_VOLTAGE = 5;
     public static final double LAUNCHING_FEEDER_VOLTAGE = -6;
     public static final double LAUNCHING_LAUNCHER_VOLTAGE = 9;

@@ -7,12 +7,33 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.kinematics.Kinematics;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DriveConstants;
+
 import static frc.robot.Constants.DriveConstants.*;
+
+import com.studica.frc.AHRS;
+import com.studica.frc.AHRS.NavXComType;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPLTVController;
+
+
 
 public class CANDriveSubsystem extends SubsystemBase {
   private final SparkMax leftLeader;
@@ -21,6 +42,14 @@ public class CANDriveSubsystem extends SubsystemBase {
   private final SparkMax rightFollower;
 
   private final DifferentialDrive drive;
+  private final DifferentialDriveOdometry odometry;
+
+  private final RelativeEncoder leftRelativeEncoder;
+  private final RelativeEncoder rightRelativeEncoder;
+
+  public DifferentialDriveKinematics kinematics;
+
+  private final AHRS gyro;
 
   public CANDriveSubsystem() {
     // create brushed motors for drive
@@ -45,33 +74,102 @@ public class CANDriveSubsystem extends SubsystemBase {
     // battery voltages (at the cost of a little bit of top speed on a fully charged
     // battery). The current limit helps prevent tripping
     // breakers.
-    SparkMaxConfig config = new SparkMaxConfig();
-    config.voltageCompensation(12);
-    config.smartCurrentLimit(DRIVE_MOTOR_CURRENT_LIMIT);
+    SparkMaxConfig sparkConfig = new SparkMaxConfig();
+    sparkConfig.voltageCompensation(12);
+    sparkConfig.smartCurrentLimit(DRIVE_MOTOR_CURRENT_LIMIT);
 
     // Set configuration to follow each leader and then apply it to corresponding
     // follower. Resetting in case a new controller is swapped
     // in and persisting in case of a controller reset due to breaker trip
-    config.follow(leftLeader);
-    leftFollower.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    config.follow(rightLeader);
-    rightFollower.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    sparkConfig.follow(leftLeader);
+    leftFollower.configure(sparkConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    sparkConfig.follow(rightLeader);
+    rightFollower.configure(sparkConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     // Remove following, then apply config to right leader
-    config.inverted(true);
-    config.disableFollowerMode();
-    rightLeader.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    sparkConfig.inverted(true);
+    sparkConfig.disableFollowerMode();
+    rightLeader.configure(sparkConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     // Set config to inverted and then apply to left leader. Set Left side inverted
     // so that postive values drive both sides forward
-    config.inverted(false);
-    leftLeader.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-  }
+    sparkConfig.inverted(false);
+    leftLeader.configure(sparkConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    leftRelativeEncoder = leftLeader.getEncoder();
+    rightRelativeEncoder = rightLeader.getEncoder();  
+
+    gyro = new AHRS(NavXComType.kMXP_SPI);
+    
+    odometry = new DifferentialDriveOdometry(
+      gyro.getRotation2d(),
+      leftRelativeEncoder.getPosition() * DriveConstants.WHEEL_CIRCUMFERENCE,
+      rightRelativeEncoder.getPosition() * DriveConstants.WHEEL_CIRCUMFERENCE
+    );
+
+    kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22.5));
+    
+    // PathPlanner Stuff
+    RobotConfig config;
+    try{
+      config = RobotConfig.fromGUISettings();
+      
+      AutoBuilder.configure(
+              this::getPose, // Robot pose supplier
+              this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
+              this::getCurrentSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+              (speeds, feedforwards) -> drive(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+              new PPLTVController(0.02), // PPLTVController is the built in path following controller for differential drive trains
+              config, // The robot configuration
+              () -> {
+                // Boolean supplier that controls when the path will be mirrored for the red alliance
+                // This will flip the path being followed to the red side of the field.
+                // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                  return alliance.get() == DriverStation.Alliance.Red;
+                }
+                return false;
+              },
+              this // Reference to this subsystem to set requirements
+      );
+    } catch (Exception e) {
+      // Handle exception as needed
+      e.printStackTrace();
+    }
+
+    };
+
   @Override
   public void periodic() {
+    odometry.update(
+      gyro.getRotation2d(),
+      leftRelativeEncoder.getPosition() * DriveConstants.WHEEL_CIRCUMFERENCE,
+      rightRelativeEncoder.getPosition() * DriveConstants.WHEEL_CIRCUMFERENCE
+    );
   }
 
   public void driveArcade(double xSpeed, double zRotation) {
     drive.arcadeDrive(xSpeed, zRotation);
   }
 
+  public void drive(ChassisSpeeds chassisSpeeds) {
+    DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(chassisSpeeds);
+    wheelSpeeds.desaturate(0.5);
+
+    drive.tankDrive(-wheelSpeeds.leftMetersPerSecond, -wheelSpeeds.rightMetersPerSecond);
+  }
+
+  public Pose2d getPose() {
+    return odometry.getPoseMeters();
+  }
+
+  public void resetPose(Pose2d pose) {
+    odometry.resetPosition(gyro.getRotation2d(), leftRelativeEncoder.getPosition(), rightRelativeEncoder.getPosition(), pose);
+  }
+
+  public ChassisSpeeds getCurrentSpeeds() {
+    DifferentialDriveWheelSpeeds speeds = new DifferentialDriveWheelSpeeds(leftRelativeEncoder.getVelocity(), rightRelativeEncoder.getVelocity());
+    return kinematics.toChassisSpeeds(speeds);
+  }
 }

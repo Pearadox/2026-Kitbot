@@ -5,16 +5,22 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import static frc.robot.Constants.OperatorConstants.*;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+
 import frc.robot.commands.Drive;
 import frc.robot.commands.Eject;
 import frc.robot.commands.Intake;
+import frc.robot.commands.Launch;
 import frc.robot.commands.LaunchSequence;
 import frc.robot.commands.LeftAuton;
-import frc.robot.commands.PracticeAuto;
+import frc.robot.commands.CenterAuton;
 import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.CANFuelSubsystem;
 
@@ -27,8 +33,10 @@ import frc.robot.subsystems.CANFuelSubsystem;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private final CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
-  private final CANFuelSubsystem fuelSubsystem = new CANFuelSubsystem();
+  private static final CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
+  private static final CANFuelSubsystem fuelSubsystem = new CANFuelSubsystem();
+
+  private final SendableChooser<Command> autoChooser;
 
   // The driver's controller
   private final CommandXboxController driverController = new CommandXboxController(
@@ -38,21 +46,16 @@ public class RobotContainer {
   // private final CommandXboxController operatorController = new CommandXboxController(
   //     OPERATOR_CONTROLLER_PORT);
 
-  // The autonomous chooser
-  private final SendableChooser<Command> autoChooser = new SendableChooser<>();
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     configureBindings();
+    registerNamedCommands();
 
-    // Set the options to show up in the Dashboard for selecting auto modes. If you
-    // add additional auto modes you can add additional lines here with
-    // autoChooser.addOption
-    autoChooser.setDefaultOption("Center Auton", new PracticeAuto(driveSubsystem, fuelSubsystem));
-    autoChooser.addOption("Center Auton", new PracticeAuto(driveSubsystem, fuelSubsystem));
-    autoChooser.addOption("Left Auton", new LeftAuton(driveSubsystem, fuelSubsystem));
+    // Pathplanner
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
 
@@ -96,5 +99,11 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     return autoChooser.getSelected();
+  }
+
+  public void registerNamedCommands() {
+    NamedCommands.registerCommand("Intake", new Intake(fuelSubsystem));
+    NamedCommands.registerCommand("Launch", new Launch(fuelSubsystem));
+    NamedCommands.registerCommand("Eject", new Eject(fuelSubsystem));
   }
 }

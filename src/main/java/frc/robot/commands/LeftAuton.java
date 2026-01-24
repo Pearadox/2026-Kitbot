@@ -14,7 +14,7 @@ public class LeftAuton extends SequentialCommandGroup {
                 new Launch(fuelSubsystem).withTimeout(3),
                 //drive to depot
                 new AutoDrive(driveSubsystem, 1.0, 0).withTimeout(0.5),
-                //intake ground fuel 👍
+                //intake ground fuel
                 new Intake(fuelSubsystem).withTimeout(5),
                 //move to shooting position
                 new AutoDrive(driveSubsystem, 0.5, 0).withTimeout(1),

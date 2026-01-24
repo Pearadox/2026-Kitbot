@@ -12,35 +12,43 @@ import frc.robot.subsystems.CANFuelSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class PracticeAuto extends SequentialCommandGroup {
+public class CenterAuton extends SequentialCommandGroup {
   /** Creates a new ExampleAuto. */
-  public PracticeAuto(CANDriveSubsystem driveSubsystem, CANFuelSubsystem fuelSubsystem) {
+  public CenterAuton(CANDriveSubsystem driveSubsystem, CANFuelSubsystem fuelSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand()); 
     addCommands(
     // Drive backwards for .25 seconds. The driveArcadeAuto command factory
     // intentionally creates a command which does not end which  allows us to control
     // the timing using the withTimeout decorator
-    new AutoDrive(driveSubsystem,0.5,  0.0).withTimeout(.25),
+    new AutoDrive(driveSubsystem,0.5,  0.0).withTimeout(0.75),
+    //prep
+    new PrepLauncher(fuelSubsystem).withTimeout(0.15),
     // Spin up the launcher for 1 second and then launch balls for 9 seconds, for a
     // total of 10 seconds
     new Launch(fuelSubsystem).withTimeout(5.0),
     //Turns 90 degrees clockwise
-    new AutoDrive(driveSubsystem,0.0, 0.5).withTimeout(0.5),
+    new AutoDrive(driveSubsystem,0.0, 0.48).withTimeout(0.49),
     //Go forward
-    new AutoDrive(driveSubsystem, 0.5, 0.0).withTimeout(2.0),
+    new AutoDrive(driveSubsystem, 0.5, 0.0).withTimeout(2.5),
     //Turns 90 degrees clockise
-    new AutoDrive(driveSubsystem,0.0, 0.5).withTimeout(0.5),
+    new AutoDrive(driveSubsystem,0.0, 0.45).withTimeout(0.5),
     //Go forward
-    new AutoDrive(driveSubsystem, 0.5, 0.0).withTimeout(1.5),
+    new AutoDrive(driveSubsystem, -0.5, 0.0).withTimeout(2.2),
     //waits for 3 seconds to get fuel
     new WaitCommand(3.0),
     //move backwards a little bit
-    new AutoDrive(driveSubsystem,-0.5, 0.0).withTimeout(1.5),
+    new IntakeDrive(fuelSubsystem, driveSubsystem,0.5, 0.0).withTimeout(1.8),
     //turns for 270 degrees clockwise
-    new AutoDrive(driveSubsystem, 0.0, -1.0).withTimeout(1.0),
+    new AutoDrive(driveSubsystem, 0.0, 0.45).withTimeout(0.63),
     //Drives forward to the hub
-    new AutoDrive(driveSubsystem,0.5,0.0).withTimeout(2),
+    new AutoDrive(driveSubsystem,0.5,0.0).withTimeout(2.4),
+    //turn
+    new AutoDrive(driveSubsystem, 0.0, 0.45).withTimeout(0.67),
+    //move backwards a little bit
+    new AutoDrive(driveSubsystem, 0.5, 0).withTimeout(0.45),
+    //prep
+    new PrepLauncher(fuelSubsystem).withTimeout(0.15),
     //Shoots the fuel currently stored in the hopper
     new Launch(fuelSubsystem).withTimeout(5)
     );
