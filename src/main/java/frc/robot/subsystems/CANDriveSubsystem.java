@@ -117,7 +117,7 @@ public class CANDriveSubsystem extends SubsystemBase {
               this::getPose, // Robot pose supplier
               this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
               this::getCurrentSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-              (speeds, feedforwards) -> drive(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+              (speeds, feedforwards) -> driveRobotRelative(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
               new PPLTVController(0.02), // PPLTVController is the built in path following controller for differential drive trains
               config, // The robot configuration
               () -> {
@@ -153,7 +153,7 @@ public class CANDriveSubsystem extends SubsystemBase {
     drive.arcadeDrive(xSpeed, zRotation);
   }
 
-  public void drive(ChassisSpeeds chassisSpeeds) {
+  public void driveRobotRelative(ChassisSpeeds chassisSpeeds) {
     DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(chassisSpeeds);
     wheelSpeeds.desaturate(0.5);
 
@@ -171,5 +171,9 @@ public class CANDriveSubsystem extends SubsystemBase {
   public ChassisSpeeds getCurrentSpeeds() {
     DifferentialDriveWheelSpeeds speeds = new DifferentialDriveWheelSpeeds(leftRelativeEncoder.getVelocity(), rightRelativeEncoder.getVelocity());
     return kinematics.toChassisSpeeds(speeds);
+  }
+
+  public void driveStop(){
+    drive.arcadeDrive(0, 0);
   }
 }

@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import static frc.robot.Constants.OperatorConstants.*;
@@ -105,5 +107,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("Intake", new Intake(fuelSubsystem));
     NamedCommands.registerCommand("Launch", new Launch(fuelSubsystem));
     NamedCommands.registerCommand("Eject", new Eject(fuelSubsystem));
+    NamedCommands.registerCommand("Stop", new InstantCommand(() -> fuelSubsystem.stop()));
+    NamedCommands.registerCommand("Turn 90 counterclockwise", new RunCommand(() -> driveSubsystem.driveArcade(0, 0.35))
+      .withTimeout(1.35)
+      .andThen(new InstantCommand(() -> driveSubsystem.driveStop()))
+    );
   }
 }
