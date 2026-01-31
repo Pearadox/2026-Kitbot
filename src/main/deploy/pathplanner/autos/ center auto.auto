@@ -1,0 +1,117 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center Path 1"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Launch"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 3.0
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Turn 90 counterclockwise"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center Path 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Turn 90 counterclockwise"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center Path 3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Turn 90 degrees clockwise"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Turn 90 degrees clockwise"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center Path 4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Turn 90 counterclockwise"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center Path 5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Turn 90 counterclockwise"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Launch"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 3.0
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

@@ -15,6 +15,8 @@ import static frc.robot.Constants.OperatorConstants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.studica.frc.AHRS;
+import com.studica.frc.AHRS.NavXComType;
 
 import frc.robot.commands.Drive;
 import frc.robot.commands.Eject;
@@ -22,6 +24,7 @@ import frc.robot.commands.Intake;
 import frc.robot.commands.Launch;
 import frc.robot.commands.LaunchSequence;
 import frc.robot.commands.LeftAuton;
+import frc.robot.commands.Turn;
 import frc.robot.commands.CenterAuton;
 import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.CANFuelSubsystem;
@@ -37,6 +40,7 @@ public class RobotContainer {
   // The robot's subsystems
   private static final CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
   private static final CANFuelSubsystem fuelSubsystem = new CANFuelSubsystem();
+  private final AHRS gyro = new AHRS(NavXComType.kMXP_SPI);
 
   private final SendableChooser<Command> autoChooser;
 
@@ -112,5 +116,11 @@ public class RobotContainer {
       .withTimeout(1.35)
       .andThen(new InstantCommand(() -> driveSubsystem.driveStop()))
     );
+    NamedCommands.registerCommand("Turn 90 degrees clockwise", new RunCommand(() -> driveSubsystem.driveArcade(0, -0.35))
+      .withTimeout(1.35)
+      .andThen(new InstantCommand(() -> driveSubsystem.driveStop()))
+    );
+    NamedCommands.registerCommand("AutoTurn", new Turn(gyro, 90, driveSubsystem));
+
   }
 }

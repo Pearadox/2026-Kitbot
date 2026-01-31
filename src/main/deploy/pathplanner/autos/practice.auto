@@ -13,7 +13,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Turn 90 counterclockwise"
+            "name": "AutoTurn"
           }
         },
         {
