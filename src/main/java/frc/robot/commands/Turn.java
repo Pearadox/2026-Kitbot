@@ -12,6 +12,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CANDriveSubsystem;
+import frc.robot.util.LoggedTunableNumber;
 
 public class Turn extends Command {
 
@@ -23,15 +24,18 @@ public class Turn extends Command {
 
     private double error;
 
+    // public final LoggedTunableNumber kP = new LoggedTunableNumber("kP", 0.04);
+
     public Turn (AHRS gyro, double setPoint, CANDriveSubsystem drive){
       //  drive.getCurrentSpeeds().fromRobotRelativeSpeeds(chassisSpeeds, null)
       this.setPoint = setPoint;
       this.drive = drive;
 
-      kP = 0.006;
+      kP = 0.0106; //0.04
     }
   @Override
   public void initialize() {
+   // drive.resetPose(drive.getPose());
 
   }  
 
@@ -50,7 +54,7 @@ public class Turn extends Command {
 
   @Override
   public boolean isFinished(){
-    if (Math.abs(error) < 10) {
+    if (Math.abs(error) < 15) {
         return true;
     } else {
         return false;

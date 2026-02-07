@@ -22,13 +22,14 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
 import static frc.robot.Constants.DriveConstants.*;
 
-import java.io.Serial;
+import org.littletonrobotics.junction.Logger;
 
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
@@ -55,6 +56,7 @@ public class CANDriveSubsystem extends SubsystemBase {
   private final AHRS gyro;
 
   public CANDriveSubsystem() {
+
     // create brushed motors for drive
     leftLeader = new SparkMax(LEFT_LEADER_ID, MotorType.kBrushless);
     leftFollower = new SparkMax(LEFT_FOLLOWER_ID, MotorType.kBrushless);
@@ -67,10 +69,10 @@ public class CANDriveSubsystem extends SubsystemBase {
     // Set can timeout. Because this project only sets parameters once on
     // construction, the timeout can be long without blocking robot operation. Code
     // which sets or gets parameters during operation may need a shorter timeout.
-    leftLeader.setCANTimeout(250);
-    rightLeader.setCANTimeout(250);
-    leftFollower.setCANTimeout(250);
-    rightFollower.setCANTimeout(250);
+    leftLeader.setCANTimeout(200);
+    rightLeader.setCANTimeout(200);
+    leftFollower.setCANTimeout(200);
+    rightFollower.setCANTimeout(200);
 
     // Create the configuration to apply to motors. Voltage compensation
     // helps the robot perform more similarly on different
@@ -151,6 +153,17 @@ public class CANDriveSubsystem extends SubsystemBase {
       rightRelativeEncoder.getPosition() * DriveConstants.WHEEL_CIRCUMFERENCE
     );
     SmartDashboard.putNumber("robotHeading", getHeading());
+    
+    Pose2d poseA = getPose();
+    Logger.recordOutput("MyPose", poseA);
+    SmartDashboard.putNumber("left encoder pos", leftRelativeEncoder.getPosition());
+    SmartDashboard.putNumber("right encoder pos", rightRelativeEncoder.getPosition());
+    SmartDashboard.putNumber("current speeds", 
+        Math.sqrt(Math.pow(getCurrentSpeeds().vxMetersPerSecond, 2)
+         + Math.pow(getCurrentSpeeds().vyMetersPerSecond, 2)));
+    // Logger.recordOutput("MyPoseArray", poseA, poseB);
+    // Logger.recordOutput("MyPoseArray", new Pose2d[] {poseA, poseB});
+    
   
   }
 
@@ -174,11 +187,13 @@ public class CANDriveSubsystem extends SubsystemBase {
   }
 
   public double getHeading() {
-    return gyro.getRotation2d().getDegrees();
+    return gyro.getRotation2d().getDegrees() % 360;
   }
 
   public ChassisSpeeds getCurrentSpeeds() {
-    DifferentialDriveWheelSpeeds speeds = new DifferentialDriveWheelSpeeds(leftRelativeEncoder.getVelocity(), rightRelativeEncoder.getVelocity());
+    DifferentialDriveWheelSpeeds speeds = new DifferentialDriveWheelSpeeds(
+            	(leftRelativeEncoder.getVelocity() * WHEEL_CIRCUMFERENCE / 60) / WHEEL_GEARING,
+				(rightRelativeEncoder.getVelocity() * WHEEL_CIRCUMFERENCE / 60) / WHEEL_GEARING);
     return kinematics.toChassisSpeeds(speeds);
   }
 

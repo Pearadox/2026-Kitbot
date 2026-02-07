@@ -37,6 +37,7 @@ public final class Constants {
     public static final int DRIVE_MOTOR_CURRENT_LIMIT = 60;
 
     public static final double WHEEL_CIRCUMFERENCE = Math.PI * 0.1524;
+    public static final double WHEEL_GEARING = 8.460;
   }
 
   public static final class FuelConstants {

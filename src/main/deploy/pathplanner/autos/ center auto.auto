@@ -32,7 +32,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Turn 90 counterclockwise"
+            "name": "AutoTurn"
           }
         },
         {
@@ -44,7 +44,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Turn 90 counterclockwise"
+            "name": "AutoTurn"
           }
         },
         {
@@ -56,13 +56,13 @@
         {
           "type": "named",
           "data": {
-            "name": "Turn 90 degrees clockwise"
+            "name": "AutoTurn"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Turn 90 degrees clockwise"
+            "name": "AutoTurn"
           }
         },
         {
@@ -74,7 +74,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Turn 90 counterclockwise"
+            "name": "AutoTurn"
           }
         },
         {
@@ -86,7 +86,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Turn 90 counterclockwise"
+            "name": "AutoTurn"
           }
         },
         {
