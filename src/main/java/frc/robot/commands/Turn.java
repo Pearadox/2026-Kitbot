@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CANDriveSubsystem;
 
 public class Turn extends Command {
-    private final AHRS gyro;
 
     private final CANDriveSubsystem drive;
 
@@ -26,7 +25,6 @@ public class Turn extends Command {
 
     public Turn (AHRS gyro, double setPoint, CANDriveSubsystem drive){
       //  drive.getCurrentSpeeds().fromRobotRelativeSpeeds(chassisSpeeds, null)
-      this.gyro = gyro;
       this.setPoint = setPoint;
       this.drive = drive;
 
@@ -39,10 +37,11 @@ public class Turn extends Command {
 
   @Override
   public void execute() {
-    error = setPoint - (gyro.getRotation2d().getDegrees() % 360);
+    error = setPoint - (drive.getHeading());
     drive.driveArcade(0.0, kP * error);
     SmartDashboard.putNumber("error", error);
   }
+
 
   @Override
   public void end(boolean interrupted) {
@@ -51,7 +50,7 @@ public class Turn extends Command {
 
   @Override
   public boolean isFinished(){
-    if (error < 0.1) {
+    if (Math.abs(error) < 10) {
         return true;
     } else {
         return false;

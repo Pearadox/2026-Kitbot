@@ -1,0 +1,43 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center Outpost 1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoTurn"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center Outpost 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Turn 90 counterclockwise"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center Outpost 3"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

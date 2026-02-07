@@ -2,7 +2,13 @@
   "robotWidth": 0.9,
   "robotLength": 0.9,
   "holonomicMode": false,
-  "pathFolders": [],
+  "pathFolders": [
+    "Center Outpost Paths",
+    "Center Path",
+    "Left Paths",
+    "The Center Paths",
+    "Right Paths"
+  ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
@@ -12,7 +18,7 @@
   "robotMass": 36.0,
   "robotMOI": 2.6,
   "robotTrackwidth": 0.6,
-  "driveWheelRadius": 0.062,
+  "driveWheelRadius": 0.049,
   "driveGearing": 8.46,
   "maxDriveSpeed": 3.87,
   "driveMotorType": "vortex",

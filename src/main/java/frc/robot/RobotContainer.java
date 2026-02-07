@@ -112,15 +112,15 @@ public class RobotContainer {
     NamedCommands.registerCommand("Launch", new Launch(fuelSubsystem));
     NamedCommands.registerCommand("Eject", new Eject(fuelSubsystem));
     NamedCommands.registerCommand("Stop", new InstantCommand(() -> fuelSubsystem.stop()));
-    NamedCommands.registerCommand("Turn 90 counterclockwise", new RunCommand(() -> driveSubsystem.driveArcade(0, 0.35))
+    NamedCommands.registerCommand("Turn 90 clockwise", new RunCommand(() -> driveSubsystem.driveArcade(0, 0.35))
       .withTimeout(1.35)
       .andThen(new InstantCommand(() -> driveSubsystem.driveStop()))
     );
-    NamedCommands.registerCommand("Turn 90 degrees clockwise", new RunCommand(() -> driveSubsystem.driveArcade(0, -0.35))
+    NamedCommands.registerCommand("Turn 90 counterclockwise", new RunCommand(() -> driveSubsystem.driveArcade(0, -0.35))
       .withTimeout(1.35)
       .andThen(new InstantCommand(() -> driveSubsystem.driveStop()))
     );
-    NamedCommands.registerCommand("AutoTurn", new Turn(gyro, 90, driveSubsystem));
+    NamedCommands.registerCommand("AutoTurn", new Turn(gyro, 90.0, driveSubsystem));
 
   }
 }

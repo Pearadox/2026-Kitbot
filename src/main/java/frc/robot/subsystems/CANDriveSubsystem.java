@@ -20,19 +20,22 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.kinematics.Kinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
 import static frc.robot.Constants.DriveConstants.*;
+
+import java.io.Serial;
 
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.RobotConfig;
-import com.pathplanner.lib.controllers.PPLTVController;
-
+import com.pathplanner.lib.controllers.PPLTVController; 
 
 
 public class CANDriveSubsystem extends SubsystemBase {
@@ -147,6 +150,8 @@ public class CANDriveSubsystem extends SubsystemBase {
       leftRelativeEncoder.getPosition() * DriveConstants.WHEEL_CIRCUMFERENCE,
       rightRelativeEncoder.getPosition() * DriveConstants.WHEEL_CIRCUMFERENCE
     );
+    SmartDashboard.putNumber("robotHeading", getHeading());
+  
   }
 
   public void driveArcade(double xSpeed, double zRotation) {
@@ -166,6 +171,10 @@ public class CANDriveSubsystem extends SubsystemBase {
 
   public void resetPose(Pose2d pose) {
     odometry.resetPosition(gyro.getRotation2d(), leftRelativeEncoder.getPosition(), rightRelativeEncoder.getPosition(), pose);
+  }
+
+  public double getHeading() {
+    return gyro.getRotation2d().getDegrees();
   }
 
   public ChassisSpeeds getCurrentSpeeds() {

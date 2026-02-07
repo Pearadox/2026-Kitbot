@@ -44,8 +44,8 @@
     "velocity": 0,
     "rotation": 0.0
   },
-  "reversed": true,
-  "folder": null,
+  "reversed": false,
+  "folder": "Center Path",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0
