@@ -15,18 +15,6 @@
           "data": {
             "name": "AutoTurn"
           }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Center Outpost 2.5"
-          }
         }
       ]
     }

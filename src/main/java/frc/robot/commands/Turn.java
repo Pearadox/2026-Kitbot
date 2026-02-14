@@ -20,29 +20,31 @@ public class Turn extends Command {
 
     private final double setPoint;
 
-    private final double kP;
-
     private double error;
 
-    // public final LoggedTunableNumber kP = new LoggedTunableNumber("kP", 0.04);
+    private AHRS gyro;
+
+    public final LoggedTunableNumber kP = new LoggedTunableNumber("kP", 0.009);
 
     public Turn (AHRS gyro, double setPoint, CANDriveSubsystem drive){
       //  drive.getCurrentSpeeds().fromRobotRelativeSpeeds(chassisSpeeds, null)
       this.setPoint = setPoint;
       this.drive = drive;
+      this.gyro = gyro;
 
-      kP = 0.0106; //0.04
+    //   kP = 0.009; //0.04
     }
   @Override
   public void initialize() {
-   // drive.resetPose(drive.getPose());
+   drive.resetPose(new Pose2d(drive.getPose().getX() ,drive.getPose().getY(), new Rotation2d()));
+   gyro.reset();
 
-  }  
+  }
 
   @Override
   public void execute() {
     error = setPoint - (drive.getHeading());
-    drive.driveArcade(0.0, kP * error);
+    drive.driveArcade(0.0, kP.getAsDouble() * error);
     SmartDashboard.putNumber("error", error);
   }
 
@@ -54,7 +56,9 @@ public class Turn extends Command {
 
   @Override
   public boolean isFinished(){
-    if (Math.abs(error) < 15) {
+    if (Math.abs(error) < 10) {
+        gyro.reset();
+        drive.resetPose(new Pose2d(drive.getPose().getX() ,drive.getPose().getY(), new Rotation2d()));
         return true;
     } else {
         return false;

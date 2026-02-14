@@ -11,9 +11,9 @@
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "AutoTurn"
+            "waitTime": 3.0
           }
         },
         {

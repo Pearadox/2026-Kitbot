@@ -4,24 +4,24 @@
     {
       "anchor": {
         "x": 3.055720399429386,
-        "y": 4.028530670470756
+        "y": 4.029
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.064851670076874,
-        "y": 3.7250049413442516
+        "x": 2.8176765837437885,
+        "y": 4.10538809994915
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.055720399429386,
-        "y": 7.017360912981456
+        "x": 1.645406562054208,
+        "y": 4.481383737517832
       },
       "prevControl": {
-        "x": 3.0562783617790963,
-        "y": 6.767361535626199
+        "x": 1.8834679337772728,
+        "y": 4.4050503680564175
       },
       "nextControl": null,
       "isLocked": false,
@@ -44,7 +44,7 @@
     "velocity": 0,
     "rotation": 0.0
   },
-  "reversed": false,
+  "reversed": true,
   "folder": "Center Outpost Paths",
   "idealStartingState": {
     "velocity": 0.0,

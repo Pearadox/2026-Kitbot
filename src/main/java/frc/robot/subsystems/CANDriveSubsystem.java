@@ -11,6 +11,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -18,6 +20,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.kinematics.Kinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -36,7 +39,8 @@ import com.studica.frc.AHRS.NavXComType;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.RobotConfig;
-import com.pathplanner.lib.controllers.PPLTVController; 
+import com.pathplanner.lib.controllers.PPLTVController;
+import com.pathplanner.lib.trajectory.PathPlannerTrajectory; 
 
 
 public class CANDriveSubsystem extends SubsystemBase {
@@ -47,6 +51,7 @@ public class CANDriveSubsystem extends SubsystemBase {
 
   private final DifferentialDrive drive;
   private final DifferentialDriveOdometry odometry;
+  private final DifferentialDrivePoseEstimator poseEstimator;
 
   private final RelativeEncoder leftRelativeEncoder;
   private final RelativeEncoder rightRelativeEncoder;
@@ -104,6 +109,9 @@ public class CANDriveSubsystem extends SubsystemBase {
     rightRelativeEncoder = rightLeader.getEncoder();  
 
     gyro = new AHRS(NavXComType.kMXP_SPI);
+
+	poseEstimator = new DifferentialDrivePoseEstimator(kinematics, Rotation2d.kZero, 
+		0.0, 0.0, Pose2d.kZero);
     
     odometry = new DifferentialDriveOdometry(
       gyro.getRotation2d(),
@@ -153,6 +161,9 @@ public class CANDriveSubsystem extends SubsystemBase {
       rightRelativeEncoder.getPosition() * DriveConstants.WHEEL_CIRCUMFERENCE
     );
     SmartDashboard.putNumber("robotHeading", getHeading());
+	SmartDashboard.putNumber("pose rotation - deg", getPose().getRotation().getDegrees());
+	SmartDashboard.putNumber("pose x" , getPose().getX());
+	SmartDashboard.putNumber("pose y" , getPose().getY());
     
     Pose2d poseA = getPose();
     Logger.recordOutput("MyPose", poseA);

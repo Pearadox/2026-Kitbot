@@ -137,7 +137,7 @@ public class RobotContainer {
 
   public void registerNamedCommands() {
     NamedCommands.registerCommand("Intake", new Intake(fuelSubsystem));
-    NamedCommands.registerCommand("Launch", new Launch(fuelSubsystem));
+    NamedCommands.registerCommand("Launch", new Launch(fuelSubsystem).withTimeout(5));
     NamedCommands.registerCommand("Eject", new Eject(fuelSubsystem));
     NamedCommands.registerCommand("Stop", new InstantCommand(() -> fuelSubsystem.stop()));
     NamedCommands.registerCommand("Turn 90 clockwise", new RunCommand(() -> driveSubsystem.driveArcade(0, 0.35))

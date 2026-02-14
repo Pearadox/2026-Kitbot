@@ -46,67 +46,6 @@
           "data": {
             "name": "AutoTurn"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Center Path 3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoTurn"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoTurn"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Center Path 4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoTurn"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Center Path 5"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoTurn"
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Launch"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 3.0
-                }
-              }
-            ]
-          }
         }
       ]
     }

@@ -13,7 +13,25 @@
         {
           "type": "named",
           "data": {
+            "name": "Launch"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "AutoTurn"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
           }
         },
         {
