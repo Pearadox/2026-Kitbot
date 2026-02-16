@@ -6,8 +6,9 @@
     "Center Outpost Paths",
     "Center Path",
     "Left Paths",
-    "The Center Paths",
-    "Right Paths"
+    "practice paths",
+    "Right Paths",
+    "The Center Paths"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,
@@ -19,7 +20,7 @@
   "robotMOI": 2.6,
   "robotTrackwidth": 0.6,
   "driveWheelRadius": 0.0762,
-  "driveGearing": 8.46,
+  "driveGearing": 8.45,
   "maxDriveSpeed": 2.57,
   "driveMotorType": "NEO",
   "driveCurrentLimit": 67.0,

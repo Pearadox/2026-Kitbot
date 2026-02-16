@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.978088445078458,
-        "y": 4.015592011412268
+        "x": 0.5326818830242512,
+        "y": 0.5997860199714706
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.978088445078458,
-        "y": 2.411198288159766
+        "x": 1.412510699001427,
+        "y": 0.5868473609129818
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.978088445078458,
-        "y": 0.8197432239657632
+        "x": 2.8098858773181172,
+        "y": 0.5997860199714706
       },
       "prevControl": {
-        "x": 2.978088445078458,
-        "y": 3.0452301940888225
+        "x": 1.7747931526390874,
+        "y": 0.5997860199714707
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Center Outpost Paths",
+  "folder": "practice paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

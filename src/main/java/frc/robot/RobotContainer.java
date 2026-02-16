@@ -31,6 +31,7 @@ import frc.robot.commands.Intake;
 import frc.robot.commands.Launch;
 import frc.robot.commands.LaunchSequence;
 import frc.robot.commands.LeftAuton;
+import frc.robot.commands.ResetOdometry;
 import frc.robot.commands.Turn;
 import frc.robot.commands.CenterAuton;
 import frc.robot.subsystems.CANDriveSubsystem;
@@ -96,6 +97,8 @@ public class RobotContainer {
     // the intake
     driverController.a().whileTrue(new Eject(fuelSubsystem));
 
+    driverController.b().whileTrue(new ResetOdometry(gyro, driveSubsystem));
+
 
     driverController.povUp().onTrue((new Turn(gyro, -90.0, driveSubsystem))
                             .andThen(new WaitCommand(1))
@@ -140,15 +143,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("Launch", new Launch(fuelSubsystem).withTimeout(5));
     NamedCommands.registerCommand("Eject", new Eject(fuelSubsystem));
     NamedCommands.registerCommand("Stop", new InstantCommand(() -> fuelSubsystem.stop()));
-    NamedCommands.registerCommand("Turn 90 clockwise", new RunCommand(() -> driveSubsystem.driveArcade(0, 0.35))
-      .withTimeout(1.35)
-      .andThen(new InstantCommand(() -> driveSubsystem.driveStop()))
-    );
-    NamedCommands.registerCommand("Turn 90 counterclockwise", new RunCommand(() -> driveSubsystem.driveArcade(0, -0.35))
-      .withTimeout(1.35)
-      .andThen(new InstantCommand(() -> driveSubsystem.driveStop()))
-    );
-    NamedCommands.registerCommand("AutoTurn", new Turn(gyro, 90.0, driveSubsystem));
+    NamedCommands.registerCommand("AutoTurn 90 degrees counterclockwise", new Turn(gyro, 90.0, driveSubsystem));
+    NamedCommands.registerCommand("AutoTurn 90 degrees clockwise", new Turn(gyro, -90, driveSubsystem));
+    NamedCommands.registerCommand("AutoTurn 180 degrees", new Turn(gyro, 180, driveSubsystem));
 
   }
 }

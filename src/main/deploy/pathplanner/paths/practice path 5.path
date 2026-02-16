@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.952,
-        "y": 0.535
+        "x": 2.8228245363766047,
+        "y": 0.6644793152639101
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4989621326730234,
-        "y": 0.535
+        "x": 2.8228245363766047,
+        "y": 1.5960627674750354
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.5585592011412266,
-        "y": 0.5350927246790309
+        "x": 2.8228245363766047,
+        "y": 4.015592011412268
       },
       "prevControl": {
-        "x": 1.0529446695951588,
-        "y": 0.535092724679031
+        "x": 2.8228245363766047,
+        "y": 3.1616405135520687
       },
       "nextControl": null,
       "isLocked": false,
@@ -35,8 +35,8 @@
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
-    "maxAngularVelocity": 0.1,
-    "maxAngularAcceleration": 0.1,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
@@ -45,10 +45,10 @@
     "rotation": 0.0
   },
   "reversed": true,
-  "folder": "Center Outpost Paths",
+  "folder": "practice paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.7544079885877313,
-        "y": 4.067346647646221
+        "x": 2.8875178316690437,
+        "y": 0.5997860199714706
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5769900142653355,
-        "y": 4.067346647646221
+        "x": 1.7016790299572029,
+        "y": 0.5996319543509284
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.9688730385164046,
-        "y": 4.067346647646221
+        "x": 0.5973751783166898,
+        "y": 0.5997860199714706
       },
       "prevControl": {
-        "x": 3.042781740370898,
-        "y": 4.067346647646221
+        "x": 1.710099857346646,
+        "y": 0.6125706134094164
       },
       "nextControl": null,
       "isLocked": false,
@@ -44,8 +44,8 @@
     "velocity": 0,
     "rotation": 0.0
   },
-  "reversed": false,
-  "folder": null,
+  "reversed": true,
+  "folder": "practice paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

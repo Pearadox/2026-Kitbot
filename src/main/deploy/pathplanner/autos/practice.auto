@@ -13,31 +13,43 @@
         {
           "type": "named",
           "data": {
-            "name": "Launch"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 3.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoTurn"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 3.0
+            "name": "AutoTurn 90 degrees counterclockwise"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "Center Path 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoTurn 90 degrees clockwise"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "practice path 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "practice path 4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoTurn 90 degrees clockwise"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "practice path 5"
           }
         }
       ]
